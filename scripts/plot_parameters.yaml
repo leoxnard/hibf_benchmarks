@@ -1,4 +1,4 @@
-PLOT_FILE: /srv/public/leonard/hibf_benchmarks/bokeh_plot.html
+PLOT_FILE: /srv/public/leonard/hibf_benchmarks/plots/bokeh_plot.html
 THEME: '/srv/public/leonard/hibf_benchmarks/scripts/bokeh_plot/plot_theme.yaml'
 
 

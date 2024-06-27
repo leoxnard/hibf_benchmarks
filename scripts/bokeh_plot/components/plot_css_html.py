@@ -27,7 +27,7 @@ def create_vercel_div():
 def create_latex_text():
     """Creates a div containing the description of the plot."""
     return """
-        <div>
+        <div style="color:#d0d0d0">
             <strong>Parameters:</strong><br>
             <ul>
                 <li><span>Alpha (\\(\\alpha\\)): Influences the ratio of merged bins and split bins</span></li>
@@ -73,18 +73,29 @@ def get_tab_style():
             background-color: #15191c;
         }
 
+        :host(.bk-Div) {
+            margin: 10px !important;
+        }
+
         .bk-tab {
             border-right: 1px solid #303030;
+            border-width: 3px 1px 0px 1px;
+            border-color: #15191c #303030 #303030 #303030;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
         }
 
         :host(.bk-Tabs) .bk-header {
             color: #d0d0d0;
-            border-bottom: 1px solid #d0d0d0;
+            border-bottom: 1px solid #a0a0a0;
+            border-top: 1px solid #a0a0a0;
+            font-size: 1.2em;
         }
 
         .bk-tab.bk-active {
             background-color: #d0d0d0;
             color: black;
+            border-color: #d0d0d0;
         }
 
         .bk-tab:not(.bk-active):hover {
@@ -99,7 +110,7 @@ def get_tab_style():
 
 def get_button_style():
     """Returns the CSS style for the toggle button."""
-    return [r"""
+    return ["""
         .bk-btn, .bk-btn-success, .bk-btn:hover, .bk-btn:active, .bk-btn:focus {
             background: #15191c;
             border: solid 1px #777777;
@@ -122,9 +133,32 @@ def get_button_style():
 def get_global_style():
     """Returns the global CSS style."""
     return """
-        body { background: #15191c; }
-        div { max-height: 96vh; max-width: 100vw; }
+        body { background-color: red; }
+        div { max-height: 96vh; max-width: 100vw;}
         """
+
+
+def get_index_link():
+    html = '''
+    <style>
+        a.custom-link {
+            color: #c0c0c0;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .right-align {
+            text-align: right;
+            color: #c0c0c0;
+        }
+        .right-align:hover{
+            color: #d0d0d0;
+        }
+    </style>
+    <div class="right-align">
+        <a href="index.html" class="custom-link">&#10554 Back to gallery</a>
+    </div>
+    '''
+    return Div(text=html)
 
 
 def get_hover_code():
