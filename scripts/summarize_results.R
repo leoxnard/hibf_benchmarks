@@ -1,5 +1,3 @@
-#!/usr/bin/env Rscript
-
 log_file <- file(snakemake@log[[1]], open = "wt")
 sink(log_file)
 sink(log_file, type = "message")
