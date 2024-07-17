@@ -85,10 +85,15 @@ def get_tab_style():
             transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out, color 0.1s ease-in-out;
         }
 
+        .right-tab {
+            position: absolute;
+            right: 0;
+        }
+
         :host(.bk-Tabs) .bk-header {
             color: #d0d0d0;
             border-bottom: 1px solid #a0a0a0;
-            border-top: 1px solid #a0a0a0;
+            # border-top: 1px solid #a0a0a0;
             font-size: 1.2em;
         }
 

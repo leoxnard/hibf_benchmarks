@@ -1,8 +1,9 @@
 from bokeh import events
-from bokeh.models import AdaptiveTicker, CustomJS, CustomJSTickFormatter, FactorRange, HoverTool, Legend, LinearAxis, TabPanel, Div, Toggle
+from bokeh.models import AdaptiveTicker, CustomJS, CustomJSTickFormatter, FactorRange, HoverTool, Legend, LinearAxis, TabPanel, Div, Toggle, Tabs
 from bokeh.layouts import column
+from bokeh.plotting import save
 
-from components.plot_css_html import create_latex_text, get_hover_code, get_button_style
+from components.plot_css_html import create_latex_text, get_hover_code, get_button_style, get_tab_style, get_global_style
 
 # Listen zur Speicherung der HoverTools und Beschreibungen
 time_plot_hovers = []
@@ -129,3 +130,25 @@ def add_description_tab(tabs):
         code=get_hover_code()))
     tabs.append(TabPanel(child=column(text_div, toggle_button), title="Description"))
 
+def add_index_jump_tab(tabs):
+    """Adds a tab that navigates to a given URL."""
+    script = f"""
+    <script type="text/javascript">
+        window.location.href = "index.html";
+    </script>
+    """
+    div = Div(text=script)
+    navigation_tab = TabPanel(child=div, title="Gallery")
+    tabs.append(navigation_tab)
+
+def save_tabs(tabs):
+    add_description_tab(tabs)
+    add_index_jump_tab(tabs)
+
+    tabs_widget = Tabs(tabs=tabs, sizing_mode="scale_both", stylesheets=[get_tab_style(), get_global_style()])
+    tabs_widget.js_on_change('active', CustomJS(args=dict(tabs=tabs_widget), code="""
+        if (cb_obj.active == cb_obj.tabs.length - 1) {
+            window.location.href = "index.html";
+        }
+    """))
+    save(tabs_widget)

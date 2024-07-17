@@ -4,15 +4,15 @@ log_init(snakemake.log[0]) # type: ignore
 import pandas as pd
 
 from bokeh.layouts import column, row
-from bokeh.models import TabPanel, Tabs
+from bokeh.models import TabPanel
 from bokeh.palettes import Set2_4, Set2_6
-from bokeh.plotting import curdoc, figure, output_file, save
+from bokeh.plotting import curdoc, figure, output_file
 from bokeh.themes import Theme
 
 from components.convert_data import prepare_time_data, prepare_size_data
 from components.helpers import convert_dic_to_list
-from components.plot_css_html import create_vercel_div, get_global_style, get_tab_style, get_index_link
-from components.plot_style import add_legend, add_description_tab, add_second_y_axis, configure_size_plot, configure_time_plot
+from components.plot_css_html import create_vercel_div
+from components.plot_style import add_legend, add_description_tab, add_second_y_axis, configure_size_plot, configure_time_plot, save_tabs
 
 SIZE_INPUT = snakemake.input["SIZE_INPUT"] # type: ignore
 TIME_INPUT = snakemake.input["TIME_INPUT"] # type: ignore
@@ -97,8 +97,10 @@ def create_plot():
         all_elements = column(both_plots, vercel_div, sizing_mode="scale_both")
         tabs.append(TabPanel(child=all_elements, title=KEYS[key]))
     
-    add_description_tab(tabs)
-    save(column(get_index_link(), Tabs(tabs=tabs, sizing_mode="scale_both", stylesheets=[get_tab_style(), get_global_style()]), sizing_mode="scale_both"))
+    save_tabs(tabs)
+
+    # save(column(get_index_link(), Tabs(tabs=tabs, sizing_mode="scale_both", stylesheets=[get_tab_style(), get_global_style()]), sizing_mode="scale_both"))
+
 
 create_plot()
 print("Plot created successfully.")
