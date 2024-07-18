@@ -5,7 +5,6 @@ from bokeh.plotting import save
 
 from components.plot_css_html import create_latex_text, get_hover_code, get_button_style, get_tab_style, get_global_style
 
-# Listen zur Speicherung der HoverTools und Beschreibungen
 time_plot_hovers = []
 size_plot_hovers = []
 normal_time_description_list = []
@@ -130,32 +129,18 @@ def add_description_tab(tabs):
         code=get_hover_code()))
     tabs.append(TabPanel(child=column(text_div, toggle_button), title="Description"))
 
-def add_index_jump_tab(tabs):
-    """Adds a tab that navigates to a given URL."""
-    script = f"""
-    <script type="text/javascript">
-        window.location.href = "index.html";
-    </script>
-    """
-    div = Div(text=script)
-    navigation_tab = TabPanel(child=div, title="Gallery")
-    tabs.append(navigation_tab)
-
 def save_tabs(tabs):
     add_description_tab(tabs)
-    add_index_jump_tab(tabs)
-
-    tabs_widget = Tabs(tabs=tabs, sizing_mode="scale_both", stylesheets=[get_tab_style(), get_global_style()])
-    tabs_widget.js_on_change('active', CustomJS(args=dict(tabs=tabs_widget), code="""
-        if (cb_obj.active == cb_obj.tabs.length - 1) {
+    back_tab = TabPanel(child=Div(text=""), title="⤺ Back to gallery")
+    tabs.append(back_tab)
+    final_tab = Tabs(tabs=tabs, sizing_mode="scale_both", stylesheets=[get_tab_style()+f".bk-tab:nth-child({len(tabs)}){{margin-left:auto;}}", get_global_style()])
+    toggle_legend_js = CustomJS(
+        args={"legend": final_tab, "pos": len(tabs) - 1},
+        code="""
+            if (legend.active === pos) {
             window.location.href = "index.html";
-        }
-    """))
-    # tabs_widget.js_on_change('tabs', CustomJS(args=dict(tabs=tabs_widget), code="""
-    #     window.addEventListener('DOMContentLoaded', (event) => {
-    #         const navigationTabIndex = cb_obj.tabs.length - 1;
-    #         const navigationTab = document.querySelectorAll('.bk-tab')[navigationTabIndex];
-    #         navigationTab.classList.add('right-tab');
-    #     });
-    # """))
-    save(tabs_widget)
+            }
+            """,
+    )
+    final_tab.js_on_change("active", toggle_legend_js)
+    save(final_tab)
