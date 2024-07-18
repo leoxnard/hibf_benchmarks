@@ -151,4 +151,11 @@ def save_tabs(tabs):
             window.location.href = "index.html";
         }
     """))
+    # tabs_widget.js_on_change('tabs', CustomJS(args=dict(tabs=tabs_widget), code="""
+    #     window.addEventListener('DOMContentLoaded', (event) => {
+    #         const navigationTabIndex = cb_obj.tabs.length - 1;
+    #         const navigationTab = document.querySelectorAll('.bk-tab')[navigationTabIndex];
+    #         navigationTab.classList.add('right-tab');
+    #     });
+    # """))
     save(tabs_widget)
