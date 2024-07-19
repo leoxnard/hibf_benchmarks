@@ -1,0 +1,8 @@
+name: bokeh
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - bokeh
+  - pandas
