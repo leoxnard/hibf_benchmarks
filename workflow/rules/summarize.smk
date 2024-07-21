@@ -21,7 +21,9 @@ rule summarize_timings:
 
 rule summarize_sizes:
     input:
-        INPUT_FILES=expand("results/{param}/out.sizes", param=get_params(False)),
+        INPUT_FILES=expand(
+            "results/{param}/out.sizes",
+            param=get_params(False)),
     output:
         OUTPUT_FILE="results/size",
     params:

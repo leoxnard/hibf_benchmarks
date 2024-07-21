@@ -1,13 +1,12 @@
 import yaml
+import yte
 
-
-configfile: "config/config.yaml"
-configfile: "config/plot_config.yaml"
+configfile: "../config/config.yaml"
+configfile: "../config/plot_config.yaml"
 
 
 # https://docs.github.com/en/actions/learn-github-actions/variables#default-environment-variables
 if os.getenv("CI", "false") == "false":
-
     include: "rules/run_raptor.smk"
 
 
@@ -17,4 +16,4 @@ include: "rules/plot.smk"
 
 rule all:
     input:
-        "results/html/index.html",
+        f"results/html/{config["PLOT_NAME"]}.html",
