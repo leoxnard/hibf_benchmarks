@@ -30,6 +30,7 @@ PARAMS:
   RELAXED_FPR: ?[0.05] + inclusive_range_add(0.1, 0.9, 0.1)
   MODE: [none, U, U+R] # [none, U, U+R]
 
+
 DATA_PARAMETERS:
   QUERY_ERRORS: 2
 
@@ -40,6 +41,7 @@ DEFAULT_PARAMS:
   KMER_SIZE: 32
   R_FPR: 0.5
   M_FPR: 0.05
+  WINDOW_SIZE: 32
   MODE: U+R
 
 NUM_THREADS: 1 # Number of threads to use per task, not for parallel execution
@@ -47,9 +49,6 @@ NUM_THREADS: 1 # Number of threads to use per task, not for parallel execution
 TIME_FORMAT:
   - "KEY"
   - "SUBKEY"
-  - "compute_minimiser_avg_in_seconds"
-  - "query_ibf_avg_in_seconds"
-  - "generate_results_avg_in_seconds"
   - "wall_clock_time_in_seconds"
   - "determine_query_length_in_seconds"
   - "query_file_io_in_seconds"
@@ -66,10 +65,10 @@ SIZE_FORMAT:
   - "AVG_LOAD_FACTOR"
 
 KEYS:
-  - "alpha"
-  - "hash"
-  - "kmer"
-  - "relaxed-fpr"
-  - "none"
-  - "U"
-  - "U+R"
+  alpha: alpha
+  hash: hash
+  kmer: k-mer
+  relaxed-fpr: relaxed-fpr
+  none: "no U no R"
+  U: U
+  U+R: "U and R"
