@@ -11,7 +11,6 @@ from bokeh.themes import Theme
 
 from components.convert_data import prepare_time_data, prepare_size_data
 from components.helpers import convert_dic_to_list
-from components.plot_css_html import create_vercel_div
 from components.plot_style import add_legend, add_description_tab, add_second_y_axis, configure_size_plot, configure_time_plot, save_tabs
 
 SIZE_INPUT = snakemake.input["SIZE_INPUT"] # type: ignore
@@ -93,9 +92,7 @@ def create_plot():
         plot2 = create_size_plot(size_dic, y_range, size_x_range, key)
         both_plots = row(plot1, plot2, sizing_mode="scale_both")
 
-        vercel_div = create_vercel_div()
-        all_elements = column(both_plots, vercel_div, sizing_mode="scale_both")
-        tabs.append(TabPanel(child=all_elements, title=KEYS[key]))
+        tabs.append(TabPanel(child=both_plots, title=KEYS[key]))
     
     save_tabs(tabs)
 
