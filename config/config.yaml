@@ -41,7 +41,6 @@ DEFAULT_PARAMS:
   KMER_SIZE: 32
   R_FPR: 0.5
   M_FPR: 0.05
-  WINDOW_SIZE: 32
   MODE: U+R
 
 NUM_THREADS: 1 # Number of threads to use per task, not for parallel execution
@@ -69,6 +68,6 @@ KEYS:
   hash: hash
   kmer: k-mer
   relaxed-fpr: relaxed-fpr
-  none: "no U no R"
+  none: none
   U: U
-  U+R: "U and R"
+  U+R: U+R
