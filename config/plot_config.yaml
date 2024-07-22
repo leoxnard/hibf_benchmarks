@@ -1,6 +1,16 @@
 PLOT_NAME: "index"
 
 
+KEYS:
+  alpha: alpha
+  hash: hash
+  kmer: k-mer
+  relaxed-fpr: relaxed-fpr
+  none: none
+  U: U
+  U+R: U+R
+
+
 TIME:
   FORMAT:
     - determine_query_length_in_seconds

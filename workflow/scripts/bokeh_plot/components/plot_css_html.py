@@ -103,6 +103,10 @@ def get_tab_style():
         .bk-tab:focus {
             outline: none;
         }
+
+        .bk-tab:active {
+            outline: none;
+        }
         """
 
 

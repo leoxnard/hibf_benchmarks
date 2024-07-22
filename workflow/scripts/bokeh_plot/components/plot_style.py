@@ -46,7 +46,7 @@ def add_hover_tool(plot, renderer, key, display_key, file_name, format_kind):
         percentage_name = key.replace("in_seconds", "percentage")
         normal_time_description = [
             (file_name, "@SUBKEY_VALUE"),
-            ("Wall clock time", "@wall_clock_time_in_seconds{0.00} sek"),
+            ("Total time", "@TOTAL_TIME{0.00} sek"),
             (display_key, "@$name{0.00} sek"),
         ]
         advanced_time_description = normal_time_description[:]
@@ -128,12 +128,7 @@ def configure_time_plot(plot, scale_in_minutes):
         plot.xaxis.ticker = AdaptiveTicker(base=10)
         plot.xaxis.axis_label = "time in seconds"
     plot.toolbar.logo = None
-    plot.toolbar_location = "below"
-    plot.toolbar.autohide = True
-    zoom_tool = WheelZoomTool(maintain_focus=False)
-    plot.add_tools(PanTool(), zoom_tool, BoxZoomTool(), ResetTool())
-    plot.toolbar.active_scroll = zoom_tool
-    plot.x_range.bounds = (0, float("inf"))
+    plot.toolbar_location = None
 
     plot.yaxis.visible = False
     plot.y_range.range_padding = 0.1
