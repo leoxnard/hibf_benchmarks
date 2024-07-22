@@ -1,30 +1,32 @@
-from components.log_init import log_init
-log_init(snakemake.log[0]) # type: ignore
+"""Creates a plot."""
 
 import pandas as pd
-
-from bokeh.layouts import column, row
+from bokeh.layouts import row
 from bokeh.models import TabPanel
 from bokeh.palettes import Set2_4, Set2_6
 from bokeh.plotting import curdoc, figure, output_file
 from bokeh.themes import Theme
 
-from components.convert_data import prepare_time_data, prepare_size_data
+from components.convert_data import prepare_size_data, prepare_time_data
 from components.helpers import convert_dic_to_list
-from components.plot_style import add_legend, add_description_tab, add_second_y_axis, configure_size_plot, configure_time_plot, save_tabs
+from components.log_init import log_init
+from components.plot_style import add_legend, add_second_y_axis, configure_size_plot, configure_time_plot, save_tabs
 
-SIZE_INPUT = snakemake.input["SIZE_INPUT"] # type: ignore
-TIME_INPUT = snakemake.input["TIME_INPUT"] # type: ignore
+log_init(snakemake.log[0])
 
-PLOT_FILE = snakemake.output["PLOT_FILE"] # type: ignore
+SIZE_INPUT = snakemake.input["SIZE_INPUT"]
+TIME_INPUT = snakemake.input["TIME_INPUT"]
 
-THEME = snakemake.params["THEME"] # type: ignore
-KEYS = snakemake.params["KEYS"] # type: ignore
-TIME = snakemake.params["TIME"] # type: ignore
-SIZE = snakemake.params["SIZE"] # type: ignore
+PLOT_FILE = snakemake.output["PLOT_FILE"]
+
+THEME = snakemake.params["THEME"]
+KEYS = snakemake.params["KEYS"]
+TIME = snakemake.params["TIME"]
+SIZE = snakemake.params["SIZE"]
 
 TIME_NAMES = [TIME["NAMES"].get(key, key) for key in TIME["FORMAT"]]
 SIZE_NAMES = [SIZE["NAMES"].get(key, key) for key in SIZE["FORMAT"]]
+
 
 def create_time_plot(data, y_range, x_range, file_name):
     """Creates the time plot."""
@@ -34,13 +36,7 @@ def create_time_plot(data, y_range, x_range, file_name):
         toolbar_location="left",
         tools="",
     )
-    renderers = plot.hbar_stack(
-        stackers=TIME["FORMAT"],
-        y=("SUBKEY"),
-        height=0.4,
-        source=(data),
-        color=Set2_6
-    )
+    renderers = plot.hbar_stack(stackers=TIME["FORMAT"], y=("SUBKEY"), height=0.4, source=(data), color=Set2_6)
     add_legend(plot, renderers, file_name, TIME_NAMES, SIZE_NAMES, "TIME_FORMAT", "left")
     configure_time_plot(plot, x_range > 120)
     add_second_y_axis(plot, y_range)
@@ -56,13 +52,7 @@ def create_size_plot(size_data, y_range, max_result_size, file_name):
         toolbar_location="right",
         tools="",
     )
-    renderers = plot.hbar_stack(
-        stackers=SIZE["FORMAT"],
-        y=("SUBKEY"),
-        height=0.4,
-        source=(size_data),
-        color=Set2_4
-    )
+    renderers = plot.hbar_stack(stackers=SIZE["FORMAT"], y=("SUBKEY"), height=0.4, source=(size_data), color=Set2_4)
     configure_size_plot(plot)
     add_legend(plot, renderers, file_name, TIME_NAMES, SIZE_NAMES, "SIZE_FORMAT", "right")
     return plot
@@ -80,7 +70,7 @@ def create_plot():
     for key in KEYS.keys():
         time_dic = prepare_time_data(time_data, (key, KEYS[key]), TIME["NAMES"])
         size_dic = prepare_size_data(size_data, (key, KEYS[key]), SIZE["NAMES"])
-        
+
         time_x_range = round(max(time_dic["wall_clock_time_in_seconds"]) * 1.05, 3)
         size_x_range = round(max(size_dic["GB_TOTAL_SIZE"]) * 1.05, 3)
 
@@ -93,7 +83,7 @@ def create_plot():
         both_plots = row(plot1, plot2, sizing_mode="scale_both")
 
         tabs.append(TabPanel(child=both_plots, title=KEYS[key]))
-    
+
     save_tabs(tabs)
 
 

@@ -3,7 +3,7 @@ colors:
     background: &background '#15191c'
     axis_line: &axis_line '#54545c'
     label_text: &label_text '#E2E2E2'
-    legend_background: &legend_background '#20262b'
+    legend_background: &legend_background '#181c20'
     colorbar_background: &colorbar_background '#2F2F2F'
 
 attrs:
