@@ -3,9 +3,9 @@ rule plot_data:
         SIZE_INPUT="results/size",
         TIME_INPUT="results/time",
     output:
-        PLOT_FILE = f"results/html/{config["PLOT_NAME"]}.html",
+        PLOT_FILE=f"results/html/{config['PLOT_NAME']}.html",
     params:
-        THEME="scripts/bokeh_plot/plot_theme.yaml",
+        THEME="workflow/scripts/bokeh_plot/plot_theme.yaml",
         KEYS=config["KEYS"],
         TIME=config["TIME"],
         SIZE=config["SIZE"],
