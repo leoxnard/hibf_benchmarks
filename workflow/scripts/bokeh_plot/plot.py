@@ -68,11 +68,11 @@ def create_plot():
         size_data = pd.read_csv(size_file, delimiter="\t")
 
     for key in KEYS.keys():
-        time_dic = prepare_time_data(time_data, (key, KEYS[key]), TIME["NAMES"])
-        size_dic = prepare_size_data(size_data, (key, KEYS[key]), SIZE["NAMES"])
+        time_dic = prepare_time_data(time_data, (key, KEYS[key]), TIME)
+        size_dic = prepare_size_data(size_data, (key, KEYS[key]), SIZE)
 
-        time_x_range = round(max(time_dic["wall_clock_time_in_seconds"]) * 1.05, 3)
-        size_x_range = round(max(size_dic["GB_TOTAL_SIZE"]) * 1.05, 3)
+        time_x_range = round(max(time_dic["TOTAL_TIME"]) * 1.03, 3)
+        size_x_range = round(max(size_dic["GB_TOTAL_SIZE"]) * 1.03, 3)
 
         size_y_range = convert_dic_to_list(size_dic["SUBKEY"])
         time_y_range = convert_dic_to_list(time_dic["SUBKEY"])
